@@ -1,0 +1,9 @@
+pandas
+numpy
+scikit-learn
+dotenv
+requests
+dataclasses
+logger
+colorlog
+dill
