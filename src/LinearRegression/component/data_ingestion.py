@@ -6,8 +6,8 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-from utils.logger import setup_logger
-from utils.exception import CustomException
+from src.utils.logger import setup_logger
+from src.utils.exception import CustomException
 
 logger = setup_logger()
 

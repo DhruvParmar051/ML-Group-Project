@@ -8,9 +8,9 @@ from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 
-from utils.exception import CustomException
-from utils.logger import setup_logger
-from utils.save_object import save_object
+from src.utils.exception import CustomException
+from src.utils.logger import setup_logger
+from src.utils.save_object import save_object
 
 logger = setup_logger()
 
