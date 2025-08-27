@@ -16,16 +16,15 @@ logger = setup_logger()
 
 @dataclass 
 class DataTransformationConfig:
-    """Configuation paths for data transformation artifacrs"""
-    preproceesor_obj_file_path: str = os.path.join('artifacts', 'preprocessor.pkl')
-    
+    """Configuration paths for data transformation artifacts"""
+    preprocessor_obj_file_path: str = os.path.join('artifacts', 'preprocessor.pkl')
 
 class DataTransformation:
     """Handles the actual Data Transformation"""
     def __init__(self):
         self.data_transformation_config = DataTransformationConfig()
         
-    def get_data_transformation_pipeline(self, df:pd.DataFrame):
+    def get_data_transformation_pipeline(self):
         """
         Create and returns a preprocessing pipeline that imputes missing values and scales numerical values
         """
@@ -47,8 +46,7 @@ class DataTransformation:
             raise CustomException(e, sys) from e
         
 
-    def initiate_data_transformation(self, train_path: str, test_path: str, target_column: str,
-                                     id_columns: list = ["Ticker", "Company"]):
+    def initiate_data_transformation(self, train_path: str, test_path: str, target_column: str):
         """
         Applied data transformation onto training and test dataset.
         """
@@ -65,11 +63,13 @@ class DataTransformation:
 
             X_train = train_df[numeric_cols]
             y_train = train_df[target_column]
-            ids_train = train_df[id_columns]
+            
+            y_train = np.log1p(y_train)
             
             X_test = test_df[numeric_cols]
             y_test = test_df[target_column]
-            ids_test = test_df[id_columns]
+            y_test  = np.log1p(y_test)
+            
             Pipeline = self.get_data_transformation_pipeline()
             
             logger.info('Applying Pipeline')
@@ -84,8 +84,8 @@ class DataTransformation:
                 X_test_transformed, columns=numeric_cols, index=test_df.index
             )
             
-            train_transformed = pd.concat([ids_train, X_train_transformed, y_train], axis=1)
-            test_transformed = pd.concat([ids_test, X_test_transformed, y_test], axis=1)
+            train_transformed = pd.concat([X_train_transformed, y_train], axis=1)
+            test_transformed = pd.concat([X_test_transformed, y_test], axis=1)
             
             logger.info("💾 Saving preprocessing pipeline object...")
 
@@ -94,7 +94,7 @@ class DataTransformation:
                 obj=Pipeline
             )
             
-            return train_transformed, test_transformed, self.data_transformation_config.preproceesor_obj_file_path
+            return train_transformed, test_transformed, self.data_transformation_config.preprocessor_obj_file_path
                   
                   
             

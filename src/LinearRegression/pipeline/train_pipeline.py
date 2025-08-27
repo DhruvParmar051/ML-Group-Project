@@ -12,6 +12,7 @@ logger = setup_logger()
 def run_pipeline():
     """Running Pipeline"""
     try:
+        print("heelo")
         logger.info("Starting Finviz data analyzes Pipeline")
         logger.info("Initiating Data Ingestion...")
         
@@ -23,7 +24,7 @@ def run_pipeline():
         logger.info("🔄 Initiating Data Transformation...")
         transformation = DataTransformation()
         train_array, test_array, preprocessor_path = transformation.initiate_data_transformation(
-            train_path, test_path
+            train_path, test_path, 'Price'
         )
         logger.info("Data Transformation Complete. Preprocessor saved at: %s", preprocessor_path)
 
@@ -41,5 +42,5 @@ def run_pipeline():
         logger.error('Error occured during pipeline executing...')
         raise CustomException(e, sys) from e
     
-if '__name__' == '__main__':
+if __name__ == '__main__':
     run_pipeline()

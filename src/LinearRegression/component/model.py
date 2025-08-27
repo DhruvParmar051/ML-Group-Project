@@ -34,10 +34,10 @@ class ModelTrainer:
             logger.info("📊 Splitting training and testing data...")
 
             X_train, y_train, X_test, y_test = (
-                train_array[:, :-1],
-                train_array[:, -1],
-                test_array[:, :-1],
-                test_array[:, -1],
+                train_array.iloc[:, :-1],
+                train_array.iloc[:, -1],
+                test_array.iloc[:, :-1],
+                test_array.iloc[:, -1],
             )
 
             logger.info("✅ Initialized Linear Regression Model")
